@@ -1,0 +1,24 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "HW#12 SQL UC Davis Coding Bootcamp",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nmounce/employee-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nmounce/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/Nmounce/employee-tracker#readme",
+  "dependencies": {
+    "inquirer": "^8.1.3",
+    "mysql2": "^2.3.0"
+  }
+}
