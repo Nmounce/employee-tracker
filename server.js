@@ -1,43 +1,51 @@
 const express = require('express');
-const app = express();
+const mysql = require('mysql2')
+const fs = require('fs');
 const inquirer = require('inquirer');
-const mysql = require('mysql2');
 const cTable = require('console.table');
+
+const dept = require('./lib/dept-table');
+const role = require('./role-table');
+const emp = require('./emp-table');
 
 const PORT = process.env.PORT || 8080
 
 //Express Middleware
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+    extended: false
+}));
 app.use(express.json());
 
 
-console.table([
-    {
-        Department ID: SELECT dept_id FROM department WHERE department_id = '*'
-        
+//create connection
+const db = mysql2.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'Justfuckingwork1!',
+    database: 'roster'
+});
+
+//connect to database
+db.connect((err) => {
+    if (err) {
+        throw err;
     }
-])
+    console.log('Roster connected...')
+});
 
-//Connect to DATABASE
-const db = mysql.createConnection(
-    {
-        host: 'localhost',
-        user: 'root',
-        password: 'Justfuckingwork1!',
-        database: 'roster_db'
-    }, console.log('Connected to DATABASE roster_db')
-)
+const app = express();
 
-app.post('/api/add-movie'(req, res) => {
-    const query = `INSERT INTO movies (movie_name) VALUES (?)`
-    const { movieName } = req.body
-    db.query(query, movieName, (err, result) => {
-        if (err) {
-            res.status(400).json(err)
-        }
-        res.json({
-            message: "success!",
-            data: result
-        })
+//create db 
+app.get('/createdb', (req, res) => {
+    let sql = 'CREATE DATABASE roster';
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send('Database created... ')
     })
-})
+});
+
+//Listen for request
+app.listen('8080', () => {
+    console.log('Server started on port 8080');
+});
