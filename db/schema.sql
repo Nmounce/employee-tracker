@@ -14,7 +14,7 @@ CREATE TABLE emprole (
     role_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     role_title VARCHAR(30) NOT NULL,
     role_salary DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (dept_id) REFERENCES department(dept_id)
+    FOREIGN KEY (role_id) REFERENCES department(dept_id)
 );
 
 CREATE TABLE employee (
