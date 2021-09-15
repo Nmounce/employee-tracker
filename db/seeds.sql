@@ -1,4 +1,4 @@
-use ROSTER_db;
+use roster_db;
 
 INSERT INTO
     department (dept_id, dept_name)
@@ -10,29 +10,27 @@ VALUES
     (005, 'Customer Service');
 
 INSERT INTO
-    emprole (role_id, role_title, role_salary)
+    emprole (dept_id, role_title, role_salary)
 VALUES
-    (100, 'Salesperson', 80000),
-    (200, 'Lead Engineer', 150000),
-    (300, 'Software Engineer', 120000),
-    (400, 'Account Manager', 160000),
-    (500, 'Accountant', 125000),
-    (600, 'Legal Team Lead', 250000),
-    (700, 'Lawyer', 190000);
+    (001, 'Salesperson', 80000),
+    (002, 'Lead Engineer', 150000),
+    (002, 'Software Engineer', 120000),
+    (003, 'Account Manager', 160000),
+    (003, 'Accountant', 125000),
+    (004, 'Legal Team Lead', 250000),
+    (004, 'Lawyer', 190000);
 
 INSERT INTO
-    employee (
-        emp_id,
-        first_name,
+    employee (first_name,
         last_name,
         role_id,
         manager_id
     )
 VALUES
-    ('', 'Mike', 'Chan', '100', ''),
-    ('', 'Ashley', 'Rodriguez', '200', ''),
-    ('', 'Kevin', 'Tupik', '300', ''),
-    ('', 'Kunal', 'Singh', '400', ''),
-    ('', 'Malia', 'Brown', '500', ''),
-    ('', 'Sarah', 'Lourd', '600', ''),
-    ('', 'Tom', 'Allen', '700', ''),
+    ('Mike', 'Chan', 1, null),
+    ('Ashley', 'Rodriguez', 1, null),
+    ('Kevin', 'Tupik', 2, null),
+    ('Kunal', 'Singh', 2, null),
+    ('Malia', 'Brown', 3, null),
+    ('Sarah', 'Lourd', 3, null),
+    ('Tom', 'Allen', 4, null);

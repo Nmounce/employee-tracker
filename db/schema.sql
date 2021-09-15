@@ -10,21 +10,18 @@ CREATE TABLE department (
 );
 
 CREATE TABLE emprole (
-    role_id INT NOT NULL PRIMARY KEY,
+    dept_id INT NOT NULL,
+    role_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     role_title VARCHAR(30) NOT NULL,
     role_salary DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (role_id) REFERENCES department(dept_id) ON DELETE
-    SET
-        NULL
+    FOREIGN KEY (dept_id) REFERENCES department(dept_id)
 );
 
 CREATE TABLE employee (
-    emp_id INT NOT NULL AUTO_INCRIMENT PRIMARY KEY,
+    emp_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     role_id INT NOT NULL,
     manager_id INT,
-    FOREIGN KEY (role_id) REFERENCES department(role_id)
-    SET
-        NULL
+    FOREIGN KEY (role_id) REFERENCES emprole(role_id)
 );

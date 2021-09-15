@@ -1,5 +1,10 @@
 const inquirer = require('inquirer');
-const schema = require('./db/schema');
+const mysql2 = require('mysql2');
+const departmentFunctions = require('./lib/dept-table')
+// const schema = require('./db/schema');
+//create connection
+
+
 
 //Blank array to be filled with pushed constructors classes
 const rosterArray = [];
@@ -89,104 +94,108 @@ const addEmp = [{
 
 function mainQues() {
     inquirer.prompt(mainQuestion).then((appStart) => {
-        if (appStart.mainQues === 'View') {
-            selectView();
+        if (appStart.intro === 'View') {
+            showView();
         }
-        if (appStart.mainQues === 'Add') {
+        if (appStart.intro === 'Add') {
             selectAdd();
         }
-        if (appStart.mainQues === 'Update') {
+        if (appStart.intro === 'Update') {
             selectUpdate();
-        } else if (appStart.mainQues === 'Delete') {
+        } else if (appStart.intro === 'Delete') {
             selectDelete();
         };
     });
 }
 
-function selectView() {
-    if (mainQues.selectView === 'View All Departments') {
-        return $ {
-            schema.department
-        };
-    }
-    if (mainQues.selectView === 'View All Roles') {
-        return $ {
-            schema.emprole
-        };
-    }
-    if (mainQues.selectView === 'View All Employees') {
-        return $ {
-            schema.employee
-        };
-    } if (mainQues.selectView === 'View Employees by Manager ID') {
-        return $ {
-            schema.employee.manager_id
-        };
-    } if (mainQues.selectView === 'View Employees by Department') {
-        return $ {
-            schema.employee
-        }
-    } if (mainQues.selectView === 'View Department Salaries') {
-        return $ {
-            schema.employee
-        }
-    } else {
-        return null 
-    }
+function showView() {
+    inquirer.prompt(selectView)
+        .then(response => {
+            if (response.view === 'View All Departments') {
+                departmentFunctions.getDept();
+            }
+    })
+
+    // if (mainQues.selectView === 'View All Roles') {
+    //     return $ {
+    //         schema.emprole
+    //     };
+    // }
+    // if (mainQues.selectView === 'View All Employees') {
+    //     return $ {
+    //         schema.employee
+    //     };
+    // } if (mainQues.selectView === 'View Employees by Manager ID') {
+    //     return $ {
+    //         schema.employee.manager_id
+    //     };
+    // } if (mainQues.selectView === 'View Employees by Department') {
+    //     return $ {
+    //         schema.employee
+    //     }
+    // } if (mainQues.selectView === 'View Department Salaries') {
+    //     return $ {
+    //         schema.employee
+    //     }
+    // else {
+    //     return null
+    // }
 };
-    // //func to call manager info and build team
-    // function managerInfo() {
-    //     inquirer.prompt(managerQ).then((buildManager) => {
-    //         let manager = new Manager(buildManager.managerName, buildManager.managerId, buildManager.managerEmail, buildManager.managerOffice);
-    //         teamMemberArray.push(manager);
-    //         addAnother();
-    //     });
-    // }
+// //func to call manager info and build team
+// function managerInfo() {
+//     inquirer.prompt(managerQ).then((buildManager) => {
+//         let manager = new Manager(buildManager.managerName, buildManager.managerId, buildManager.managerEmail, buildManager.managerOffice);
+//         teamMemberArray.push(manager);
+//         addAnother();
+//     });
+// }
 
-    // //func to add another TM
-    // function addAnother() {
-    //     inquirer.prompt(addAnotherTM).then((addTo) => {
-    //         //yes adds another tm to array and recalls addTMLoop func.
-    //         if (addTo.add === true) {
-    //             addTMLoop();
-    //         }
-    //         if (addTo.add === false) {
-    //             //no renders file and closes app
-    //             renderHTML(teamMemberArray);
-    //         }
-    //     });
-    // }
+// //func to add another TM
+// function addAnother() {
+//     inquirer.prompt(addAnotherTM).then((addTo) => {
+//         //yes adds another tm to array and recalls addTMLoop func.
+//         if (addTo.add === true) {
+//             addTMLoop();
+//         }
+//         if (addTo.add === false) {
+//             //no renders file and closes app
+//             renderHTML(teamMemberArray);
+//         }
+//     });
+// }
 
-    // //func to choose type of TM
-    // function addTMLoop() {
-    //     inquirer.prompt(addAnotherTMRole).then((TMRole) => {
-    //         if (TMRole.role === 'Engineer') {
-    //             log.yellow('Enter the Engineers Information');
-    //             inquirer.prompt(engineerQ).then((buildEngineer) => {
-    //                 let engineer = new Engineer(buildEngineer.engineerName, buildEngineer.engineerId, buildEngineer.engineerEmail, buildEngineer.engineerGithub)
-    //                 teamMemberArray.push(engineer);
-    //                 addAnother();
-    //             });
-    //         } else if (TMRole.role === 'Intern') {
-    //             log.blue('Enter the Interns Information');
-    //             inquirer.prompt(internQ).then((buildIntern) => {
-    //                 let intern = new Intern(buildIntern.internName, buildIntern.internId, buildIntern.internEmail, buildIntern.internSchool)
-    //                 teamMemberArray.push(intern);
-    //                 addAnother();
-    //             });
-    //         }
-    //     });
-    // }
+// //func to choose type of TM
+// function addTMLoop() {
+//     inquirer.prompt(addAnotherTMRole).then((TMRole) => {
+//         if (TMRole.role === 'Engineer') {
+//             log.yellow('Enter the Engineers Information');
+//             inquirer.prompt(engineerQ).then((buildEngineer) => {
+//                 let engineer = new Engineer(buildEngineer.engineerName, buildEngineer.engineerId, buildEngineer.engineerEmail, buildEngineer.engineerGithub)
+//                 teamMemberArray.push(engineer);
+//                 addAnother();
+//             });
+//         } else if (TMRole.role === 'Intern') {
+//             log.blue('Enter the Interns Information');
+//             inquirer.prompt(internQ).then((buildIntern) => {
+//                 let intern = new Intern(buildIntern.internName, buildIntern.internId, buildIntern.internEmail, buildIntern.internSchool)
+//                 teamMemberArray.push(intern);
+//                 addAnother();
+//             });
+//         }
+//     });
+// }
 
-    // //func to write array info to HTML when all tm's have been enetered
-    // function renderHTML(file) {
-    //     console.log('hello');
-    //     const htmlDoc = render(file);
-    //     fs.writeFile(outputPath, htmlDoc,
-    //         function () {
-    //             log.green(`Team Profile Completed`);
-    //         });
-    // }
+// //func to write array info to HTML when all tm's have been enetered
+// function renderHTML(file) {
+//     console.log('hello');
+//     const htmlDoc = render(file);
+//     fs.writeFile(outputPath, htmlDoc,
+//         function () {
+//             log.green(`Team Profile Completed`);
+//         });
+// }
 
-    // //call start application
-    // introQues();
+// //call start application
+// introQues();
+
+mainQues();
