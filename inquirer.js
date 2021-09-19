@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const mysql2 = require('mysql2');
 const departmentFunctions = require('./lib/dept-table');
-const empFunctions = require('./lib/emp-table');
+const employeeFunctions = require('./lib/emp-table');
 const roleFunctions = require('./lib/role-table');
 
 //Blank array to be filled with pushed constructors classes
@@ -48,44 +48,46 @@ const selectDelete = {
 
 //ADDS
 //add department
-const addDept = [{
-    name: 'addDeptName',
+const addDept = {
+    name: 'dept_name',
     type: 'input',
     message: 'What is the name of the department?',
-}];
+};
 
 //add role
-const addRole = [{
-    name: 'addRoleName',
-    type: 'input',
-    message: 'What is the role title?',
-}, {
-    name: 'addRoleSalary',
-    type: 'input',
-    message: 'What is the annual salary for this role?'
-}, {
-    name: 'addRoleDept',
-    type: 'input',
-    message: 'What department does this role belong to?',
-    choices: ['Customer Service', 'Engineering', 'Finance', 'Legal', 'Sales']
-}];
+function addRole(deptList) {
+    return [{
+        name: 'role_title',
+        type: 'input',
+        message: 'What is the role title?',
+    }, {
+        name: 'role_salary',
+        type: 'input',
+        message: 'What is the annual salary for this role?'
+    }, {
+        name: 'dept_id',
+        type: 'list',
+        message: 'What department does this role belong to?',
+        choices: deptList
+    }]
+};
 
 //add employee
 const addEmp = [{
-    name: 'addFirstName',
+    name: 'first_name',
     type: 'input',
     message: 'What is the employees first name?'
 }, {
-    name: 'addLastName',
+    name: 'last_name',
     type: 'input',
     message: 'What is the employees last name?'
 }, {
-    name: 'addEmpRole',
+    name: 'role_id',
     type: 'list',
     message: 'What is the employees role?',
     choices: ['Accountant', 'Account Manager', 'Lawyer', 'Lead Engineer', 'Legal Team Lead', 'Salesperson', 'Software Engineer']
 }, {
-    name: 'addManager',
+    name: 'manager_id',
     type: 'input',
     message: 'Who is the employees manager?'
 }];
@@ -114,33 +116,51 @@ function showView() {
     inquirer.prompt(selectView)
         .then(response => {
             if (response.view === 'View All Departments') {
-                departmentFunctions.getDept(response)
+                departmentFunctions.getDept();
             }
             if (response.view === 'View All Roles') {
                 roleFunctions.getRole();
             }
             if (response.view === 'View All Employees') {
-                empFunctions.getEmp();
-            }
+                employeeFunctions.getEmp();
+            };
         });
 }
 
 function showAdd() {
     inquirer.prompt(selectAdd)
         .then(response => {
-            if (response.selectAdd === 'Add a Department') {
-                departmentFunctions.addDept(),
-                inquirer.prompt(addDept);
+            if (response.add === 'Add a Department') {
+                departmentFunctions.getDept()
+                    .then(deptInfo => {
+                        inquirer.prompt()
+                            .then(response => {
+                                departmentFunctions.addDept(response);
+                            })
+                    });
             }
             if (response.add === 'Add a Role') {
-                roleFunctions.addRole();
-                inquirer.prompt(addRole);
+                //get a list of all departments in the database
+                departmentFunctions.getDept()
+                    .then(deptInfo => {
+                        //ask the user for new role info, send in our dept list 
+                        inquirer.prompt()
+                            .then(response => {
+                                //query to add role to database
+                                roleFunctions.addRole(response);
+                            })
+                    });
             }
             if (response.add === 'Add an Employee') {
-                empFunctions.addEmp();
-                inquirer.prompt(addEmp);
+                employeeFunctions.addEmp()
+                    .then(empInfo => {
+                        inquirer.prompt(addEmp(empInfo))
+                            .then(response => {
+                                employeeFunctions.addEmp(response);
+                            })
+                    });
             }
-        });
+        })
 }
 
 function showUpdate() {
