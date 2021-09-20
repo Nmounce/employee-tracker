@@ -50,10 +50,10 @@ VALUES
 INSERT INTO employee 
 (first_name, last_name, role_id, manager_id)
 VALUES
-    -- ('Mike', 'Chan', 1, ),
-    -- ('Ashley', 'Rodriguez', 1, null),
-    -- ('Kevin', 'Tupik', 2, null),
-    -- ('Kunal', 'Singh', 2, null),
-    -- ('Malia', 'Brown', 3, null),
-    -- ('Sarah', 'Lourd', 3, null),
-    -- ('Tom', 'Allen', 4, null);
+    ('Mike', 'Chan', 1, 'John Doe'),
+    ('Ashley', 'Rodriguez', 2, null),
+    ('Kevin', 'Tupik', 3, 2),
+    ('Kunal', 'Singh', 4, null),
+    ('Malia', 'Brown', 5, 4),
+    ('Sarah', 'Lourd', 6, null),
+    ('Tom', 'Allen', 7, 6);
