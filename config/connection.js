@@ -2,6 +2,7 @@
 
 // const db = mysql2.createConnection({
 //     host: 'localhost',
+//     port: 3000,
 //     user: 'root',
 //     password: 'Justfuckingwork1!',
 //     database: 'roster_db'

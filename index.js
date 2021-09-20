@@ -1,8 +1,5 @@
-const mysql2 = require('mysql2');
+const mysql2 = require('mysql');
 const inquirer = require('inquirer');
-const {
-    func
-} = require('assert-plus');
 require('console.table');
 
 const promptCommand = {
@@ -17,7 +14,7 @@ const promptCommand = {
     exit: "Exit",
 };
 
-const connections = mysql2.createConnection({
+const db = mysql2.createConnection({
     host: 'localhost',
     port: 3000,
     user: 'root',
@@ -25,8 +22,10 @@ const connections = mysql2.createConnection({
     database: 'employees'
 });
 
-connection.connect(err => {
-    if (err) throw err;
+//connect to database
+db.connect(err => {
+    // if (err) throw err;
+    console.log('Roster connected...')
     prompt();
 });
 
