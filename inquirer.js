@@ -49,7 +49,7 @@ const selectDelete = {
 //ADDS
 //add department
 const addDept = {
-    name: 'dept_name',
+    name: 'addDeptName',
     type: 'input',
     message: 'What is the name of the department?',
 };
@@ -74,20 +74,20 @@ function addRole(deptList) {
 
 //add employee
 const addEmp = [{
-    name: 'first_name',
+    name: 'addFirstName',
     type: 'input',
     message: 'What is the employees first name?'
 }, {
-    name: 'last_name',
+    name: 'addLastName',
     type: 'input',
     message: 'What is the employees last name?'
 }, {
-    name: 'role_id',
+    name: 'addEmpRole',
     type: 'list',
     message: 'What is the employees role?',
     choices: ['Accountant', 'Account Manager', 'Lawyer', 'Lead Engineer', 'Legal Team Lead', 'Salesperson', 'Software Engineer']
 }, {
-    name: 'manager_id',
+    name: 'addManager',
     type: 'input',
     message: 'Who is the employees manager?'
 }];
@@ -116,7 +116,7 @@ function showView() {
     inquirer.prompt(selectView)
         .then(response => {
             if (response.view === 'View All Departments') {
-                departmentFunctions.getDept();
+                departmentFunctions.getDept(response);
             }
             if (response.view === 'View All Roles') {
                 roleFunctions.getRole();
@@ -130,38 +130,38 @@ function showView() {
 function showAdd() {
     inquirer.prompt(selectAdd)
         .then(response => {
-            if (response.add === 'Add a Department') {
-                departmentFunctions.getDept()
-                    .then(deptInfo => {
-                        inquirer.prompt()
-                            .then(response => {
-                                departmentFunctions.addDept(response);
-                            })
-                    });
-            }
-            if (response.add === 'Add a Role') {
-                //get a list of all departments in the database
-                departmentFunctions.getDept()
-                    .then(deptInfo => {
-                        //ask the user for new role info, send in our dept list 
-                        inquirer.prompt()
-                            .then(response => {
-                                //query to add role to database
-                                roleFunctions.addRole(response);
-                            })
-                    });
-            }
-            if (response.add === 'Add an Employee') {
-                employeeFunctions.addEmp()
-                    .then(empInfo => {
-                        inquirer.prompt(addEmp(empInfo))
-                            .then(response => {
-                                employeeFunctions.addEmp(response);
-                            })
-                    });
-            }
-        })
-}
+                if (response.add === 'Add a Department') {
+                    departmentFunctions.getDept()
+                        .then(deptInfo => {
+                            inquirer.prompt(addDept)
+                                .then(response => {
+                                    departmentFunctions.addDept(response);
+                                })
+                        });
+                }
+                if (response.add === 'Add a Role') {
+                    //get a list of all departments in the database
+                    departmentFunctions.getDept()
+                        .then(deptData => {
+                            //ask the user for new role info, send in our dept list 
+                            inquirer.prompt(addRole(deptData))
+                                .then(response => {
+                                    //query to add role to database
+                                    roleFunctions.addRole(response);
+                                })
+                        });
+                }
+                if (response.add === 'Add an Employee') {
+                    employeeFunctions.addEmp()
+                        .then(empInfo => {
+                            inquirer.prompt(addEmp(empInfo))
+                                .then(response => {
+                                    employeeFunctions.addEmp(response);
+                                })
+                        });
+                }
+            })
+        }
 
 function showUpdate() {
     inquirer.prompt(selectUpdate)
