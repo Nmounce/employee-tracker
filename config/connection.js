@@ -1,19 +1,17 @@
-// const mysql2 = require('mysql2');
+const mysql = require('mysql2');
 
-// const db = mysql2.createConnection({
-//     host: 'localhost',
-//     port: 3000,
-//     user: 'root',
-//     password: 'Justfuckingwork1!',
-//     database: 'roster_db'
-// });
+const connection = mysql.createConnection({
+    host: 'localhost',
+    // port: process.env.PORT || 3001,
+    user: 'root',
+    password: 'Justfuckingwork1!',
+    database: 'employees'
+});
 
-// //connect to database
-// db.connect((err) => {
-//     if (err) {
-//         throw err;
-//     }
-//     console.log('Roster connected...')
-// });
+//connect to database
+connection.connect((err) => {
+    if (err) throw err;
+    console.log('Employee Tracker connected...')
+});
 
-// module.exports = db;
+module.exports = connection;

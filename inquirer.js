@@ -1,11 +1,12 @@
 // const inquirer = require('inquirer');
-// const mysql2 = require('mysql2');
-// const departmentFunctions = require('./lib/dept-table');
-// const employeeFunctions = require('./lib/emp-table');
-// const roleFunctions = require('./lib/role-table');
+// const mysql = require('mysql');
+// // const departmentFunctions = require('./lib/dept-table');
+// // const employeeFunctions = require('./lib/emp-table');
+// // const roleFunctions = require('./lib/role-table');
 
 // //Blank array to be filled with pushed constructors classes
 // const rosterArray = [];
+// const db = require('./config/connection');
 
 // //Intro question that starts the app
 // const mainQuestion = {
@@ -95,20 +96,30 @@
 
 // //func that renders all input
 
-// function mainQues() {
-//     inquirer.prompt(mainQuestion).then((appStart) => {
-//         if (appStart.intro === 'View') {
-//             showView();
-//         }
-//         if (appStart.intro === 'Add') {
-//             showAdd();
-//         }
-//         if (appStart.intro === 'Update') {
-//             showUpdate();
-//         } else if (appStart.intro === 'Delete') {
-//             showDelete();
-//         };
-//     });
+// async function mainQues() {
+//     const makeSelection = await inquirer.prompt(intro());
+//     async (err, res) => {
+//         if (err) throw err;
+//          await inquirer.prompt([{
+//             name: 'intro',
+//             type: 'list',
+//             message: 'What would you like to do?',
+//             choices: ['View', 'Add', 'Update', 'Delete']
+//         }]);
+//     }
+//     // inquirer.prompt(mainQuestion).then((appStart) => {
+//     //     if (appStart.intro === 'View') {
+//     //         showView();
+//     //     }
+//     //     if (appStart.intro === 'Add') {
+//     //         showAdd();
+//     //     }
+//     //     if (appStart.intro === 'Update') {
+//     //         showUpdate();
+//     //     } else if (appStart.intro === 'Delete') {
+//     //         showDelete();
+//     //     };
+//     // });
 // }
 
 // //departments
@@ -116,7 +127,11 @@
 //     inquirer.prompt(selectView)
 //         .then(response => {
 //             if (response.view === 'View All Departments') {
-//                 departmentFunctions.getDept(response);
+//                 let sql = 'SELECT * FROM department';
+//                 let query = db.query(sql, (err, result) => {
+//                     if (err) throw err;
+//                     console.table(result);
+//                 });
 //             }
 //             if (response.view === 'View All Roles') {
 //                 roleFunctions.getRole();
@@ -130,38 +145,38 @@
 // function showAdd() {
 //     inquirer.prompt(selectAdd)
 //         .then(response => {
-//                 if (response.add === 'Add a Department') {
-//                     departmentFunctions.getDept()
-//                         .then(deptInfo => {
-//                             inquirer.prompt(addDept)
-//                                 .then(response => {
-//                                     departmentFunctions.addDept(response);
-//                                 })
-//                         });
-//                 }
-//                 if (response.add === 'Add a Role') {
-//                     //get a list of all departments in the database
-//                     departmentFunctions.getDept()
-//                         .then(deptData => {
-//                             //ask the user for new role info, send in our dept list 
-//                             inquirer.prompt(addRole(deptData))
-//                                 .then(response => {
-//                                     //query to add role to database
-//                                     roleFunctions.addRole(response);
-//                                 })
-//                         });
-//                 }
-//                 if (response.add === 'Add an Employee') {
-//                     employeeFunctions.addEmp()
-//                         .then(empInfo => {
-//                             inquirer.prompt(addEmp(empInfo))
-//                                 .then(response => {
-//                                     employeeFunctions.addEmp(response);
-//                                 })
-//                         });
-//                 }
-//             })
-//         }
+//             if (response.add === 'Add a Department') {
+//                 departmentFunctions.getDept()
+//                     .then(deptInfo => {
+//                         inquirer.prompt(addDept)
+//                             .then(response => {
+//                                 departmentFunctions.addDept(response);
+//                             })
+//                     });
+//             }
+//             if (response.add === 'Add a Role') {
+//                 //get a list of all departments in the database
+//                 departmentFunctions.getDept()
+//                     .then(deptData => {
+//                         //ask the user for new role info, send in our dept list 
+//                         inquirer.prompt(addRole(deptData))
+//                             .then(response => {
+//                                 //query to add role to database
+//                                 roleFunctions.addRole(response);
+//                             })
+//                     });
+//             }
+//             if (response.add === 'Add an Employee') {
+//                 employeeFunctions.addEmp()
+//                     .then(empInfo => {
+//                         inquirer.prompt(addEmp(empInfo))
+//                             .then(response => {
+//                                 employeeFunctions.addEmp(response);
+//                             })
+//                     });
+//             }
+//         })
+// }
 
 // function showUpdate() {
 //     inquirer.prompt(selectUpdate)
