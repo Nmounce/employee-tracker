@@ -126,7 +126,7 @@ function viewByManager() {
 }
 
 function viewAllRoles() {
-    connection.query(`SELECT emprole.title, employee.id, employee.first_name, employee.last_name, department.name AS department
+    connection.query(`SELECT emprole.title, employee.id, employee.first_name, employee.last_name, department.department_name AS department
     FROM employee
     LEFT JOIN emprole ON (emprole.id = employee.role_id)
     LEFT JOIN department ON (department.id = emprole.department_id)
