@@ -210,27 +210,19 @@ async function addARole() {
     const addRole = await inquirer.prompt(askRole());
     connection.query(`SELECT emprole.id, emprole.title FROM emprole ORDER by emprole.id;`, async (err, res) => {
         if (err) throw err;
-        let choices = res.map(res => `${res.department_name}`);
-        choices.push('none');
         const {
-            department
+            role
         } = await inquirer.prompt([{
             name: 'department',
             type: 'list',
-            choices: choices,
+            choices: () => res.map(res => res.department_name),
             message: 'To what department does this role belong?: '
         }]);
-        let deptName;
-        if (department === 'none') {
-            deptId = null;
-        } else {
-            for (const data of res) {
-                data.deptN = `${data.department_name}`;
-                if (data.deptN === deptId) {
-                    deptId = data.deptN;
-                    console.log(deptName);
-                    continue;
-                }
+        let deptId;
+        for (const row of res) {
+            if (row.title === deptId) {
+                deptId = row.id;
+                continue;
             }
         }
         console.log('Role has been added. Please refer to view all roles table to verify...');
@@ -371,6 +363,10 @@ function askRole() {
         name: "salary",
         type: "input",
         message: "What is the annual salary for this role?"
+    }, {
+        name: "dept",
+        type: "input",
+        message: "To what department does this role belong?"
     }]);
 }
 
