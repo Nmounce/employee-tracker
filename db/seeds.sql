@@ -1,7 +1,7 @@
-use employees;
+use employees_db;
 
 INSERT INTO
-    department (name)
+    department (department_name)
 VALUES
     ('Sales'),
     ('Engineering'),
@@ -30,6 +30,17 @@ VALUES
     ('Sarah', 'Lourd', 6, null),
     ('Tom', 'Allen', 7, 6);
 
-    SELECT * FROM department;
-    SELECT * FROM emprole;
-    SELECT * FROM employee;
+SELECT
+    *
+FROM
+    department;
+
+SELECT
+    *
+FROM
+    emprole;
+
+SELECT
+    *
+FROM
+    employee;

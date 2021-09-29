@@ -1,15 +1,17 @@
 const mysql = require('mysql2');
+const inquirer = require('inquirer');
+const cTable = require('console.table');
 
 const connection = mysql.createConnection({
     host: 'localhost',
-    // port: process.env.PORT || 3001,
+    port: 3306,
     user: 'root',
     password: 'Justfuckingwork1!',
-    database: 'employees'
+    database: 'employees_db'
 });
 
 //connect to database
-connection.connect((err) => {
+connection.connect(function (err) {
     if (err) throw err;
     console.log('Employee Tracker connected...')
 });
